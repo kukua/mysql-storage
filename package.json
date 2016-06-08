@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "npm install && node src/storage.js"
+  },
+  "devDependencies": {
+    "mqtt": "^1.7.4",
+    "mysql": "^2.10.2"
+  }
+}

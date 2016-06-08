@@ -1,0 +1,13 @@
+storage:
+    image: node:4.2.1
+    env_file:
+        - .env
+        - concava.env
+    working_dir: /data
+    volumes:
+        - .:/data
+    external_links:
+        - concavasetupmysqlmqtt_concava_1:concava
+        - concavasetupmysqlmqtt_mariadb_1:mariadb
+    command: npm start
+    restart: always
