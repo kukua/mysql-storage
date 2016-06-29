@@ -32,11 +32,17 @@ receiver.on('message', function (topic, message) {
 	var data = JSON.parse(message.toString())
 	var deviceId = topic.replace('concava/', '')
 	var table = deviceId
-	var query = 'REPLACE INTO ?? SET ?, `timestamp` = FROM_UNIXTIME(?)'
-	var timestamp = data.timestamp
-	delete data.timestamp
+	var query = 'REPLACE INTO ?? SET ?'
+	var params = [table, data]
 
-	connection.query(query, [table, data, timestamp], function (err, result) {
+	Object.keys(data).forEach(function (key) {
+		if (key.toLowerCase().indexOf('timestamp') === -1) return
+		query += ', `' + key + '` = FROM_UNIXTIME(?)'
+		params.push(data[key])
+		delete data[key]
+	})
+
+	connection.query(query, params, function (err, result) {
 		if (err) return console.error(err)
 	})
 })
